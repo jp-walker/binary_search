@@ -174,10 +174,10 @@ def argmin(f, lo, hi, epsilon=1e-3):
     '''
 
     if (hi - lo) < epsilon:
-        return (lo + hi) / 2
+        return (hi + lo) / 2
 
-    m1 = ((lo + hi + hi) / 3)
-    m2 = ((lo + lo + hi) / 3)
+    m1 = ((lo + lo + hi) / 3)
+    m2 = ((lo + hi + hi) / 3)
 
     if f(m1) < f(m2):
         return argmin(f, lo, m2, epsilon)
