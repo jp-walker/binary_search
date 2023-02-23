@@ -27,6 +27,29 @@ def find_smallest_positive(xs):
     True
     '''
 
+    if len(xs) == 0 or xs[-1] < 0:
+        return None
+
+    left = 0
+    right = len(xs) - 1
+
+    def go(left, right):
+        if left == right:
+            if xs[left] > 0:
+                return left
+            else:
+                return None
+        mid = (right + left) // 2
+        if xs[mid] > 0:
+            right = mid
+        if xs[mid] < 0:
+            left = mid + 1
+        if xs[mid] == 0:
+            return mid + 1
+        return go(left, right)
+
+    return go(0, len(xs) - 1)
+
 
 def count_repeats(xs, x):
     '''
@@ -52,6 +75,63 @@ def count_repeats(xs, x):
     >>> count_repeats([3, 2, 1], 4)
     0
     '''
+
+    if x not in xs:
+        return 0
+
+
+    def go_lowest(left, right):
+        if left == right:
+            if xs[left] == x:
+                return left
+            else:
+                return 0
+
+        mid = (right + left) // 2
+
+        if xs[mid] > x:
+            left = mid + 1
+        if xs[mid] < x:
+            right = mid
+        if xs[mid] == x:
+            if mid == 0:
+                return mid
+            elif xs[mid - 1] == x:
+                right = mid - 1
+            else:
+                return mid
+        return go_lowest(left, right)
+
+    def go_highest(left, right):
+        if left == right:
+            if xs[left] == x:
+                return left
+            else:
+                return 0
+
+        mid = (right + left) // 2
+
+        if xs[mid] > x:
+            left = mid + 1
+        if xs[mid] < x:
+            right = mid
+        if xs[mid] == x:
+            if mid == (len(xs) - 1):
+                return mid
+            elif xs[mid + 1] == x:
+                left = mid + 1
+            else:
+                return mid
+        return go_highest(left, right)
+
+    def go_difference(xs):
+        left = 0
+        right = len(xs) - 1
+        lowest = go_lowest(left, right)
+        highest = go_highest(left,right)
+        return (highest - lowest + 1)
+
+    return go_difference(xs)
 
 
 def argmin(f, lo, hi, epsilon=1e-3):
@@ -87,6 +167,12 @@ def argmin(f, lo, hi, epsilon=1e-3):
     >>> argmin(lambda x: (x-5)**2, -20, 0)
     -0.00016935087808430278
     '''
+
+
+################################################################################
+# the functions below are extra credit
+################################################################################
+
 
 
 ################################################################################
